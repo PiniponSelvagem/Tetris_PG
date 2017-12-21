@@ -29,7 +29,7 @@
     > v2.A.1 (02052016)
         ! INFO: Imported to IntelIJ for later improvements.
         # FIX:  Minor redundant booleans. 
-                    * Example » BEFORE: exit==true, NOW: exit
+                    * Example Â» BEFORE: exit==true, NOW: exit
 
     > v1.2   (22012015)
         ! INFO: Score per line no longer has a fixed variable.
@@ -76,17 +76,17 @@
         + ADD:  Customizable Piece counter position.
         + ADD:  More constants for personalisation:
                 BOARD:
-                    * WAIT » waiting time in milliseconds to delete next line.
+                    * WAIT Â» waiting time in milliseconds to delete next line.
                 SCORE:
-                    * SCORE_SHOW   » if true will draw the Score in-game.
-                    * KEYMAP_SHOW  » if true will draw the KeyMap in-game.
-                    * CR_FOREG_XXX » changes the color of the foreground for "XXX".
-                    * CR_BACKG_XXX » changes the color of the background for "XXX".
-                    * H_POS_X and V_POS_X » changes piece counter position.
-                    * MUSIC » write the name of the song that you want to be heard
+                    * SCORE_SHOW   Â» if true will draw the Score in-game.
+                    * KEYMAP_SHOW  Â» if true will draw the KeyMap in-game.
+                    * CR_FOREG_XXX Â» changes the color of the foreground for "XXX".
+                    * CR_BACKG_XXX Â» changes the color of the background for "XXX".
+                    * H_POS_X and V_POS_X Â» changes piece counter position.
+                    * MUSIC Â» write the name of the song that you want to be heard
                               in-game without the extension (music in .wav).
                               Music file goes to sound folder.
-                    * MUSIC_STATE  » if true will start playing the music when game
+                    * MUSIC_STATE  Â» if true will start playing the music when game
                                      starts.
         - REM:  Array lineCheck deprecated, new algorithm can check if line is full.
         - Removed White Piece
