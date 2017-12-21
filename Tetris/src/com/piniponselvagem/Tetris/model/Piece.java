@@ -1,3 +1,6 @@
+package com.piniponselvagem.Tetris.model;
+
+import com.piniponselvagem.Tetris.TetrisCtrl;
 import isel.leic.pg.Console;
 
 public class Piece {
@@ -8,7 +11,7 @@ public class Piece {
     
     public Piece(int type) {	// Create a piece of one type
       Piece.type = nexttype;
-      column = Board.DIM_COLS/2 -GRID_COLS/2;  // Centered in board 
+      column = Board.DIM_COLS/2 -GRID_COLS/2;  // Centered in board
       line = 0;								   // Top line
       direction = 0;						   // First direction
     }
@@ -22,12 +25,12 @@ public class Piece {
     }
     
     public void show() {  // Show the blocks of the piece in board
-    	draw(Board.BASE_LINE+line, Board.BASE_COL+column, 
+    	draw(Board.BASE_LINE+line, Board.BASE_COL+column,
     		  COLORS[type], BLOCKS[type][direction], 'o');    		
     }
     
     public void hide() {  // Show the grid in the position of the blocks
-    	draw(Board.BASE_LINE+line, Board.BASE_COL+column, 
+    	draw(Board.BASE_LINE+line, Board.BASE_COL+column,
     		  Console.BLACK, BLOCKS[type][direction], '.');
     }
         
@@ -58,7 +61,7 @@ public class Piece {
 	public boolean moveRight()	{ return move(0,+1); }
     public boolean down() 		{ return move(1,0);  }
     public void downFast()	{ 
-    	while(down()==true) Board.linePause(Board.WAIT/4); // makes that fancy effect when falling
+    	while(down()) Board.linePause(Board.WAIT / 4); // makes that fancy effect when falling
     }
     
     private boolean move(int dLine, int dCol) {
@@ -75,7 +78,7 @@ public class Piece {
     	int mask = MASK_INIT;
     	for(int l=0 ; l<GRID_LINES ; ++l)				// For each line
     		for(int c=0 ; c<GRID_COLS ; ++c , mask>>=1)	// For each column
-    			if ((blocks&mask)!=0 && !Board.validPosition(line+l,col+c))
+    			if ((blocks&mask)!=0 && !Board.validPosition(line + l, col + c))
     				return false; 						// If the block has no room
 		return true;
 	}
@@ -86,7 +89,7 @@ public class Piece {
     	for(int l=0; l<GRID_LINES ; ++l)				// For each line
     		for(int c=0; c<GRID_COLS ; ++c , mask>>=1 )	// For each column
     			if ((blocks&mask)!=0) { 				// If has a block
-    				Board.put(line+l, col+c, txt); 		// Move cursor and write the char
+    				Board.put(line + l, col + c, txt); 		// Move cursor and write the char
     			}
     }
 	
@@ -98,7 +101,7 @@ public class Piece {
     				Board.board[line+l][col+c] = color;
     				++points;
     			}
-    	Score.scoreCalc(points*Score.SCORE_MINIBLOCK);
+    	Score.scoreCalc(points * Score.SCORE_MINIBLOCK);
     }
 	
 	public void isGameOver() {
@@ -106,9 +109,9 @@ public class Piece {
 		int mask = MASK_INIT;
 		for(int l=0; l<GRID_LINES ; ++l)				// For each line of the possible next piece
 			// Check if is possible to place next piece in the 4x4 space
-    		for(int c=(Board.DIM_COLS/2-2); c<(Board.DIM_COLS/2)+GRID_COLS/2 ; ++c , mask>>=1 ) {	
+    		for(int c=(Board.DIM_COLS/2-2); c<(Board.DIM_COLS/2)+GRID_COLS/2 ; ++c , mask>>=1 ) {
     			if ((blocks&mask)!=0 && Board.board[l][c]!=0) {	// If has a block
-    				Tetris.gameOver=true;
+    				TetrisCtrl.gameOver=true;
     			}
     		}
 	} 

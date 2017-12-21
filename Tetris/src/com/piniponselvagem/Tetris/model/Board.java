@@ -1,23 +1,56 @@
+package com.piniponselvagem.Tetris.model;
+
+import com.piniponselvagem.Tetris.TetrisCtrl;
 import isel.leic.pg.Console;
 
-public class Board {
+public class Board implements ModelInfoGetter {
 	public static final int 
-		BASE_LINE =  0, BASE_COL = 1, //BASE_COL needs to be equal or above '1'
+		BASE_LINE =  0, BASE_COL =  1, //BASE_COL needs to be equal or above '1'
 		DIM_LINES = 20, DIM_COLS = 10,
 		WAIT = 50;
 		/* WAIT -> How long 'X' stays when deleting line.
 		 *         Affects lineDelete time, also see "Board.lineDeleteEffect()"
 		 */
-	
-	/*
-	 * END OF EDITABLE ZONE
-	 */
-	
-	/** 
-	 * Tetris Board
-	 */
-	public static int[][] board;  // array to save solid pieces
-	
+
+	public static int[][] board;
+
+	private ModelListener listener;
+
+	@Override
+	public int getDimLins() {
+		return DIM_LINES;
+	}
+
+	@Override
+	public int getDimCols() {
+		return DIM_COLS;
+	}
+
+	@Override
+	public int getBaseLin() {
+		return BASE_LINE;
+	}
+
+	@Override
+	public int getBaseCol() {
+		return BASE_COL;
+	}
+
+	public void setUpdateListener(ModelListener listener) {
+		this.listener = listener;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 	public static void drawGrid() {
 		for(int l=0 ; l<=DIM_LINES ; ++l)
 			for(int c=0 ; c<=DIM_COLS+1 ; ++c) {
@@ -29,7 +62,7 @@ public class Board {
 					Console.color(Console.BLACK, Console.WHITE);
 					if (l!=DIM_LINES && (c==0 || c==DIM_COLS+1)) put(BASE_LINE+l, c+BASE_COL-1,'|');
 					if (l==DIM_LINES && (c==0 || c==DIM_COLS+1)) put(BASE_LINE+l, c+BASE_COL-1,'+');
-					if (l==DIM_LINES && (c>0 && c<=DIM_COLS)) 	 put(BASE_LINE+l, c+BASE_COL-1,'-');
+					if (l==DIM_LINES && (c>0  && c<=DIM_COLS)) 	 put(BASE_LINE+l, c+BASE_COL-1,'-');
 				}
 			}
 	}
@@ -60,26 +93,15 @@ public class Board {
 	    			linePause(WAIT);
 	    			lineDraw(line);
 	    			lineMove(line-1); //moves next line down, '1' because its the line above.
-	    			Score.scoreCalc(DIM_COLS*Score.SCORE_MINIBLOCK);
+	    			Score.scoreCalc(DIM_COLS * Score.SCORE_MINIBLOCK);
 	    			Score.linesCalc(1); //increments lines counter
 	    			break; //if not here, will only delete max 2 lines per turn, leaves this 'for' and do 'recheck'.
 	    		}
 			}
-		}	while(recheck);
+		} while(recheck);
 	}
 	
 	private static void lineDelete(int line) {
-		/*
-		for (int col=0 ; col<DIM_COLS; ++col) {
-			if (line>0) {
-				board[line][col]=board[line-1][col]; // copy above line to lower line (prepare to move)
-				board[line-1][col]=0;				 // delete copied line
-			}
-			else board[line][col]=0; 
-			gridShow(line+BASE_LINE,col);
-		}
-		*/
-		
 		if (line>0) {
 			board[line]=board[line-1];
 			board[line-1]=new int[DIM_COLS];
@@ -113,15 +135,12 @@ public class Board {
 	}
 	
 	public static void linePause(int wait) {
-		Tetris.nextStepTime+=wait; //stops the timer for "WAIT"ms
-		/*for (long time = System.currentTimeMillis(); 
-				System.currentTimeMillis()<time+wait ; ); //stops delete effect for "WAIT"ms
-		*/
+		TetrisCtrl.nextStepTime+=wait; //stops the timer for "WAIT"ms
 		Console.sleep(wait);
 	}
 	
 	private static void lineColor(int line, int col, char letter) {
-		for (int i=0 ; i<Piece.COLORS.length ; ++i) {
+		for (int i=0 ; i< Piece.COLORS.length ; ++i) {
 			if (board[line][col]==Piece.COLORS[i]) {
 				Console.color(Console.WHITE, Piece.COLORS[i]);
 				put(line+BASE_LINE, col+BASE_COL, letter);
